@@ -85,28 +85,23 @@ const Protocol = () => {
     useEffect(() => {
         let ctx = gsap.context(() => {
             const cards = gsap.utils.toArray('.protocol-card');
-            const numTransitions = cards.length - 1; // 2 transitions for 3 cards
-            const scrollPerTransition = 45; // vh per card swap — smooth & deliberate
-            const dwellPadding = 35; // vh of extra hold — lets the weighted scrub fully finish Phase 3
-            const totalScroll = numTransitions * scrollPerTransition + dwellPadding;
-
-            // We use native CSS sticky instead of GSAP pinning for vastly superior mobile momentum.
-            // No ScrollTrigger.create({ pin: true }) needed!
+            const numCards = cards.length;
+            const scrollPerCard = 100 / (numCards - 1); // e.g., 50% for 3 cards
 
             // Apple-style: cards lift upward, scale, blur, and fade — with weighted scrub lag
             cards.forEach((card, i) => {
-                if (i < numTransitions) {
+                if (i < numCards - 1) {
                     gsap.to(card, {
-                        scale: 0.92,
-                        yPercent: -8,
+                        scale: 0.85,    // slightly deeper scale pushback
+                        yPercent: -12,  // push higher up out of the way
                         opacity: 0,
-                        filter: "blur(10px)",
-                        ease: "power1.in",
+                        filter: "blur(15px)",
+                        ease: "power2.inOut", // smooth entrance and exit, not sharp
                         scrollTrigger: {
                             trigger: containerRef.current,
-                            start: () => `top -${i * scrollPerTransition}vh`,
-                            end: () => `top -${(i + 1) * scrollPerTransition}vh`,
-                            scrub: 1.2, // weighted lag — the Apple signature feel
+                            start: `${i * scrollPerCard}% top`,
+                            end: `${(i + 1) * scrollPerCard}% top`,
+                            scrub: 1.5, // slightly more weighted lag for smoother interpolation
                         }
                     });
                 }
@@ -128,7 +123,7 @@ const Protocol = () => {
             </div>
 
             {/* The native scrolling track that determines total scroll duration */}
-            <div ref={containerRef} className="relative w-full z-10" style={{ height: '225vh' }}>
+            <div ref={containerRef} className="relative w-full z-10" style={{ height: '350vh' }}>
                 {/* The visually pinned frame */}
                 <div className="sticky top-0 w-full h-[100dvh] flex items-center justify-center p-6 md:p-12 lg:p-24 overflow-hidden">
                     <div ref={wrapRef} className="relative w-full max-w-5xl h-full flex items-center justify-center">
