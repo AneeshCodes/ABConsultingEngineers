@@ -4,14 +4,14 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const TeamMember = ({ name, role, credentials, bio, align = "left" }) => {
+const TeamMember = ({ name, role, credentials, bio, align = "left", photoUrl }) => {
     return (
         <div className={`flex flex-col ${align === 'right' ? 'lg:items-end lg:text-right' : 'lg:items-start lg:text-left'} gap-6 team-member opacity-0 translate-y-8`}>
             {/* Minimalist Portrait Placeholder (Cinematic Style) */}
             <div className={`w-full max-w-sm aspect-[3/4] rounded-[2rem] overflow-hidden relative ${align === 'right' ? 'lg:ml-auto' : 'lg:mr-auto'} group`}>
                 <div className="absolute inset-0 bg-accent/20 z-10 mix-blend-overlay group-hover:bg-transparent transition-colors duration-700" />
                 <img
-                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000&auto=format&fit=crop"
+                    src={photoUrl || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000&auto=format&fit=crop"}
                     alt={name}
                     className="w-full h-full object-cover filter grayscale contrast-125 brightness-75 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000"
                 />
@@ -104,6 +104,7 @@ const Team = () => {
                         ]}
                         bio="Avinash is a Chartered Professional Engineer with over 22 years of experience in structural engineering across the UK, Middle East, India, and New Zealand. He is committed to practical and safe designs, focusing on client needs to provide elegant solutions to complex structural challenges."
                         align="left"
+                        photoUrl="https://static.wixstatic.com/media/27804b_2c42d9f69e98411ba31501de7245b20a~mv2.jpg"
                     />
 
                     <TeamMember
