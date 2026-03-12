@@ -7,6 +7,7 @@ import Features from './components/Features';
 import Philosophy from './components/Philosophy';
 import Protocol from './components/Protocol';
 import Projects from './components/Projects';
+import Consultation from './components/Consultation';
 import Footer from './components/Footer';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -41,10 +42,10 @@ const Navbar = () => {
                 <a href="#projects" className="interactive-link hover:text-accent">Recent Work</a>
                 <a href="#protocol" className="interactive-link hover:text-accent">Protocol</a>
             </div>
-            <button className="btn-magnetic bg-accent text-primary px-6 py-2 h-10 rounded-[2rem] text-sm font-semibold border border-transparent hover:border-accent/50 group relative overflow-hidden hidden md:inline-flex">
+            <a href="#consultation" className="btn-magnetic bg-accent text-primary px-6 py-2 h-10 rounded-[2rem] text-sm font-semibold border border-transparent hover:border-accent/50 group relative overflow-hidden hidden md:inline-flex items-center justify-center">
                 <span className="relative z-10 transition-colors group-hover:text-primary">Consultation</span>
                 <div className="absolute inset-0 bg-white/20 translate-y-[100%] transition-transform duration-500 rounded-[2rem] group-hover:translate-y-0" />
-            </button>
+            </a>
         </nav>
     );
 };
@@ -118,6 +119,7 @@ const App = () => {
             <Philosophy />
             <Protocol />
             <Projects />
+            <Consultation />
             <Footer />
         </div>
     );
