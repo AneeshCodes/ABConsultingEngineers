@@ -107,10 +107,12 @@ export default async function handler(req, res) {
     const errors = [];
 
     // --- Send confirmation email via Brevo ---
+    let emailError = null;
     try {
         await sendEmail({ name, email, type });
     } catch (err) {
         console.error('Email error:', err);
+        emailError = err.message;
         errors.push('email');
     }
 
@@ -136,7 +138,7 @@ export default async function handler(req, res) {
     }
 
     if (errors.includes('email')) {
-        return res.status(500).json({ error: 'Failed to send confirmation email' });
+        return res.status(500).json({ error: 'Failed to send confirmation email', detail: emailError });
     }
 
     return res.status(200).json({ success: true });
