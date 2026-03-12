@@ -8,6 +8,16 @@ const Consultation = () => {
     const containerRef = useRef(null);
     const formRef = useRef(null);
     const [formStatus, setFormStatus] = useState('idle'); // idle, loading, success, error
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [selectedType, setSelectedType] = useState("");
+
+    const projectTypes = [
+        "Seismic Assessment (DSA / ISA)",
+        "Commercial / Institutional Frameworks",
+        "Industrial Pipe Supports & Retrofits",
+        "High-End Residential Structural",
+        "Other / Unknown Scope"
+    ];
 
     useEffect(() => {
         let ctx = gsap.context(() => {
@@ -144,22 +154,50 @@ const Consultation = () => {
                                     </div>
                                 </div>
 
-                                <div className="form-element flex flex-col gap-2">
-                                    <label htmlFor="type" className="text-sm font-mono text-white/40 uppercase tracking-wider">03. Project Classification</label>
-                                    <select
-                                        id="type"
-                                        name="type"
-                                        required
-                                        defaultValue=""
-                                        className="w-full bg-textDark border-b border-white/10 text-white/70 px-4 py-4 focus:outline-none focus:border-accent focus:bg-white/5 transition-all rounded-t-xl appearance-none cursor-pointer"
+                                <div className="form-element flex flex-col gap-2 relative">
+                                    <label className="text-sm font-mono text-white/40 uppercase tracking-wider">03. Project Classification</label>
+
+                                    {/* Custom Dropdown Trigger */}
+                                    <div
+                                        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                                        className={`w-full bg-textDark border-b ${isDropdownOpen ? 'border-accent bg-white/5' : 'border-white/10'} text-white px-4 py-4 focus:outline-none transition-all rounded-t-xl cursor-pointer flex justify-between items-center`}
                                     >
-                                        <option value="" disabled className="bg-textDark text-white/50">Select Infrastructure Scope...</option>
-                                        <option value="Seismic Assessment" className="bg-textDark text-white">Seismic Assessment (DSA / ISA)</option>
-                                        <option value="Commercial Infrastructure" className="bg-textDark text-white">Commercial / Institutional Frameworks</option>
-                                        <option value="Industrial Retrofit" className="bg-textDark text-white">Industrial Pipe Supports & Retrofits</option>
-                                        <option value="Residential Engineering" className="bg-textDark text-white">High-End Residential Structural</option>
-                                        <option value="Other" className="bg-textDark text-white">Other / Unknown Scope</option>
-                                    </select>
+                                        <span className={selectedType ? "text-white" : "text-white/50"}>
+                                            {selectedType || "Select Infrastructure Scope..."}
+                                        </span>
+                                        <svg
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            className={`w-5 h-5 text-white/50 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180 text-accent' : ''}`}
+                                            stroke="currentColor"
+                                            strokeWidth="2"
+                                        >
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                                        </svg>
+                                    </div>
+
+                                    {/* Hidden input to ensure FormData still catches the value for Formspree */}
+                                    <input type="hidden" name="type" required value={selectedType} />
+
+                                    {/* Custom Dropdown Menu */}
+                                    <div
+                                        className={`absolute top-[100%] left-0 w-full bg-[#1A1A24] border border-white/10 rounded-[1.5rem] mt-2 overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.8)] z-50 transition-all duration-300 origin-top ${isDropdownOpen ? 'opacity-100 scale-y-100' : 'opacity-0 scale-y-0 pointer-events-none'}`}
+                                    >
+                                        <ul className="flex flex-col py-2">
+                                            {projectTypes.map((type, i) => (
+                                                <li
+                                                    key={i}
+                                                    onClick={() => {
+                                                        setSelectedType(type);
+                                                        setIsDropdownOpen(false);
+                                                    }}
+                                                    className={`px-6 py-4 cursor-pointer text-white/80 hover:text-accent hover:bg-white/5 transition-colors ${selectedType === type ? 'bg-white/5 text-accent' : ''}`}
+                                                >
+                                                    {type}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
                                 </div>
 
                                 <div className="form-element flex flex-col gap-2">
