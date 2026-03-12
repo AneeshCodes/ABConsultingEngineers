@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    body {
+        @apply bg-background text-textDark font-sans antialiased overflow-x-hidden selection:bg-accent/30 selection:text-primary;
+    }
+}
+
+@layer components {
+
+    /* Common Button Style with sliding background & magnetic feel */
+    .btn-magnetic {
+        @apply relative inline-flex items-center justify-center px-8 py-4 rounded-[2rem] font-medium transition-transform overflow-hidden cursor-pointer;
+        transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        transition-duration: 400ms;
+    }
+
+    .btn-magnetic:hover {
+        transform: scale(1.03);
+    }
+
+    .btn-primary {
+        @apply bg-accent text-primary border border-accent/20;
+    }
+
+    .btn-primary .btn-bg {
+        @apply absolute inset-0 bg-white/20 translate-y-[100%] transition-transform duration-500 rounded-[2rem];
+    }
+
+    .btn-primary:hover .btn-bg {
+        @apply translate-y-0;
+    }
+
+    .btn-secondary {
+        @apply bg-transparent text-background border border-background/20 backdrop-blur-md;
+    }
+
+    .btn-secondary .btn-bg {
+        @apply absolute inset-0 bg-background text-primary translate-y-[100%] transition-transform duration-500 rounded-[2rem];
+    }
+
+    .btn-secondary:hover .btn-bg {
+        @apply translate-y-0;
+    }
+
+    .btn-secondary:hover {
+        @apply text-primary border-transparent;
+    }
+
+    .interactive-link {
+        @apply inline-block transition-transform duration-300 hover:-translate-y-[1px];
+    }
+}
+
+/* Global Noise Overlay Filter via SVG turbulence */
+.noise-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.05;
+}
+
+/* Standardized hidden scrollbar if preferred */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    @apply bg-primary;
+}
+
+::-webkit-scrollbar-thumb {
+    @apply bg-slate-800 rounded-full;
+}
+
+.stroke-dash-animate {
+    stroke-dasharray: 400;
+    stroke-dashoffset: 400;
+    animation: dash 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes dash {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
