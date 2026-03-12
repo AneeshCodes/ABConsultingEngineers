@@ -97,6 +97,7 @@ const Protocol = () => {
                 end: `+=${totalScroll}vh`,
                 pin: true,
                 pinSpacing: true,
+                anticipatePin: 1,
             });
 
             // Apple-style: cards lift upward, scale, blur, and fade — with weighted scrub lag

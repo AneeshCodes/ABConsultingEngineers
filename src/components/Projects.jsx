@@ -58,6 +58,7 @@ const Projects = () => {
                     pin: true,
                     scrub: 1.2, // Match the Apple-esque weighted scrub from Protocol
                     invalidateOnRefresh: true, // Recalculate on resize
+                    anticipatePin: 1,
                 }
             });
 
@@ -85,7 +86,7 @@ const Projects = () => {
     }, []);
 
     return (
-        <section id="projects" ref={containerRef} className="bg-primary pt-32 h-screen overflow-hidden flex flex-col justify-center">
+        <section id="projects" ref={containerRef} className="bg-primary pt-32 h-[100dvh] overflow-hidden flex flex-col justify-center">
             <div className="px-6 md:px-12 lg:px-24 mb-12 shrink-0">
                 <h2 className="text-5xl md:text-6xl font-sans font-bold tracking-tight text-background">
                     Recent <span className="font-drama italic text-accent">Proof of Work.</span>
@@ -99,12 +100,12 @@ const Projects = () => {
                 {projectsData.map((project, idx) => (
                     <div
                         key={idx}
-                        className="relative w-[85vw] md:w-[60vw] lg:w-[45vw] h-full rounded-[2rem] overflow-hidden group border border-white/5 bg-textDark"
+                        className="relative w-[85vw] md:w-[60vw] lg:w-[45vw] h-full rounded-[2rem] overflow-hidden group border border-white/5 bg-textDark gpu-accelerate"
                     >
                         {/* Background Image Container */}
                         <div className="absolute inset-0 w-[120%] -left-[10%] h-full">
                             <div
-                                className="project-img w-full h-full bg-cover bg-center transition-transform duration-1000 group-hover:scale-105"
+                                className="project-img gpu-accelerate w-full h-full bg-cover bg-center transition-transform duration-1000 group-hover:scale-105"
                                 style={{ backgroundImage: `url('${project.imageUrl}')` }}
                             />
                         </div>
