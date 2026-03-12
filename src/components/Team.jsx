@@ -118,6 +118,7 @@ const Team = () => {
                         ]}
                         bio="Harikrishnan brings over 12 years of experience delivering structural engineering design projects across 4 continents. As a passionate advocate for technological integration, he pioneers digital workflows and computational design to push the boundaries of modern infrastructure."
                         align="right"
+                        photoUrl="/Harikrishnan.png"
                     />
                 </div>
             </div>

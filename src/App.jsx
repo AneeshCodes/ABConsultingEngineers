@@ -36,6 +36,11 @@ gsap.ticker.add((time) => {
 gsap.ticker.lagSmoothing(0);
 
 const Navbar = () => {
+    const handleNavClick = (e, target) => {
+        e.preventDefault();
+        lenis.scrollTo(target, { offset: -50 });
+    };
+
     return (
         <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-[500] w-[90%] max-w-5xl rounded-[3rem] px-8 py-4 backdrop-blur-xl bg-primary/60 border border-white/5 flex items-center justify-between transition-all duration-300">
             <div
@@ -45,11 +50,11 @@ const Navbar = () => {
                 AB Consulting
             </div>
             <div className="hidden md:flex gap-8 text-background/80 font-sans text-sm tracking-wider">
-                <a href="#expertise" className="interactive-link hover:text-accent">Expertise</a>
-                <a href="#projects" className="interactive-link hover:text-accent">Recent Work</a>
-                <a href="#protocol" className="interactive-link hover:text-accent">Protocol</a>
+                <a href="#expertise" onClick={(e) => handleNavClick(e, '#expertise')} className="interactive-link hover:text-accent">Expertise</a>
+                <a href="#projects" onClick={(e) => handleNavClick(e, '#projects')} className="interactive-link hover:text-accent">Recent Work</a>
+                <a href="#protocol" onClick={(e) => handleNavClick(e, '#protocol')} className="interactive-link hover:text-accent">Protocol</a>
             </div>
-            <a href="#consultation" className="btn-magnetic bg-accent text-primary px-6 py-2 h-10 rounded-[2rem] text-sm font-semibold border border-transparent hover:border-accent/50 group relative overflow-hidden hidden md:inline-flex items-center justify-center">
+            <a href="#consultation" onClick={(e) => handleNavClick(e, '#consultation')} className="btn-magnetic bg-accent text-primary px-6 py-2 h-10 rounded-[2rem] text-sm font-semibold border border-transparent hover:border-accent/50 group relative overflow-hidden hidden md:inline-flex items-center justify-center">
                 <span className="relative z-10 transition-colors group-hover:text-primary">Consultation</span>
                 <div className="absolute inset-0 bg-white/20 translate-y-[100%] transition-transform duration-500 rounded-[2rem] group-hover:translate-y-0" />
             </a>
