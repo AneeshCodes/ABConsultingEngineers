@@ -86,7 +86,7 @@ const Protocol = () => {
         let ctx = gsap.context(() => {
             const cards = gsap.utils.toArray('.protocol-card');
             const numCards = cards.length;
-            const scrollPerCard = 100 / (numCards - 1); // e.g., 50% for 3 cards
+            const scrollPerCard = 100 / numCards; // 33.33% for 3 cards. The last 33.33% becomes pure dwell time for Phase 3!
 
             // Apple-style: cards lift upward, scale, blur, and fade — with weighted scrub lag
             cards.forEach((card, i) => {
@@ -112,25 +112,31 @@ const Protocol = () => {
     }, []);
 
     return (
-        <section id="protocol" className="bg-primary text-background">
-            <div className="pt-32 max-w-6xl mx-auto px-6 md:px-12 lg:px-24 mb-16 relative z-20">
-                <h2 className="text-5xl md:text-6xl lg:text-7xl font-sans font-bold tracking-tight text-background mb-4">
-                    The <span className="font-drama italic text-accent">Protocol.</span>
-                </h2>
-                <p className="text-xl font-sans text-background/60 max-w-2xl text-balance">
-                    Our rigid methodology for assessing and engineering structural brilliance.
-                </p>
-            </div>
-
+        <section id="protocol" className="bg-primary text-background w-full relative">
             {/* The native scrolling track that determines total scroll duration */}
-            <div ref={containerRef} className="relative w-full z-10" style={{ height: '350vh' }}>
-                {/* The visually pinned frame */}
-                <div className="sticky top-0 w-full h-[100dvh] flex items-center justify-center p-6 md:p-12 lg:p-24 overflow-hidden">
-                    <div ref={wrapRef} className="relative w-full max-w-5xl h-full flex items-center justify-center">
-                        {protocols.map((p, i) => (
-                            <ProtocolCard key={i} data={p} index={i} />
-                        ))}
+            <div ref={containerRef} className="relative w-full z-10" style={{ height: '400vh' }}>
+                {/* The unified Sticky container */}
+                <div className="sticky top-0 w-full h-[100dvh] flex flex-col justify-center overflow-hidden pt-24 md:pt-32 pb-12">
+
+                    {/* Title inside sticky container */}
+                    <div className="w-full max-w-6xl mx-auto px-6 md:px-12 lg:px-24 mb-10 shrink-0">
+                        <h2 className="text-4xl md:text-5xl lg:text-7xl font-sans font-bold tracking-tight text-background mb-4">
+                            The <span className="font-drama italic text-accent">Protocol.</span>
+                        </h2>
+                        <p className="text-lg md:text-xl font-sans text-background/60 max-w-2xl text-balance">
+                            Our rigid methodology for assessing and engineering structural brilliance.
+                        </p>
                     </div>
+
+                    {/* Cards Container */}
+                    <div className="w-full flex-1 relative flex items-center justify-center px-6 md:px-12 lg:px-24">
+                        <div ref={wrapRef} className="relative w-full max-w-5xl h-full flex items-center justify-center">
+                            {protocols.map((p, i) => (
+                                <ProtocolCard key={i} data={p} index={i} />
+                            ))}
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </section>
