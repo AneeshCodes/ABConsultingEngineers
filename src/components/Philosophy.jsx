@@ -47,14 +47,14 @@ const Philosophy = () => {
 
             <div className="relative z-10 max-w-6xl w-full mx-auto">
                 <p className="phil-text-1 text-xl md:text-3xl font-sans text-background/60 mb-12 max-w-3xl leading-relaxed">
-                    Most engineering focuses purely on standard compliance and passing documentation.
+                    Most engineering firms focus purely on: ticking the compliance boxes and moving on.
                 </p>
                 <h2 className="text-4xl md:text-7xl lg:text-8xl leading-[1.1] tracking-tight">
                     <span className="phil-text-2 font-sans font-bold block mb-2">We focus on:</span>
-                    <span className="phil-text-2 font-drama italic block text-accent mt-4">practical solutions.</span>
+                    <span className="phil-text-2 font-drama italic block text-accent mt-4">your project, not the paperwork.</span>
                 </h2>
                 <p className="phil-text-2 text-lg md:text-xl font-sans text-background/50 mt-12 max-w-2xl text-balance">
-                    By partnering with clients and contractors early, we deliver cost-effective, straightforward structural designs that minimize on-site disruption and maximize project value.
+                    We work closely with you, your builder, and your architect to find solutions that are practical, cost-effective, and actually straightforward to construct on-site.
                 </p>
             </div>
         </section>

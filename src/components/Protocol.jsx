@@ -7,18 +7,18 @@ gsap.registerPlugin(ScrollTrigger);
 const protocols = [
     {
         num: "01",
-        title: "Site & Structural Assessment",
-        desc: "Thorough condition and seismic evaluation of existing structures and new building sites before design begins."
+        title: "Site Assessment",
+        desc: "We visit your site, inspect the existing structure, and review all drawings. We identify what's there, what's missing, and what needs to change before any design work begins."
     },
     {
         num: "02",
-        title: "Engineering Design",
-        desc: "Practical, safe, and innovative structural design using advanced modeling for buildings and civil infrastructure."
+        title: "Structural Design",
+        desc: "We calculate loads, model the structure, and produce full engineering drawings. Everything is designed to meet NZ building code and your site's specific soil and seismic conditions."
     },
     {
         num: "03",
-        title: "Council Compliance",
-        desc: "End-to-end delivery of construction documents, including PS1, PS2, and PS4 producer statements."
+        title: "Council Sign-Off",
+        desc: "As registered producer statement authors, we issue the PS1, PS2, and PS4 certificates required by your council — so your project can get consent and construction can proceed."
     }
 ];
 
@@ -122,10 +122,10 @@ const Protocol = () => {
                     {/* Title inside sticky container */}
                     <div className="w-full max-w-6xl mx-auto px-6 md:px-12 lg:px-24 mb-10 shrink-0">
                         <h2 className="text-4xl md:text-5xl lg:text-7xl font-sans font-bold tracking-tight text-background mb-4">
-                            How we <span className="font-drama italic text-accent">Deliver.</span>
+                            How we <span className="font-drama italic text-accent">work.</span>
                         </h2>
                         <p className="text-lg md:text-xl font-sans text-background/60 max-w-2xl text-balance">
-                            Our straightforward process for ensuring your project is designed, approved, and built safely.
+                            Every project goes through three clear stages — from the first site visit to your final council sign-off.
                         </p>
                     </div>
 
