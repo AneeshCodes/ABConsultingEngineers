@@ -52,13 +52,6 @@
     .interactive-link {
         @apply inline-block transition-transform duration-300 hover:-translate-y-[1px];
     }
-
-    /* Hardware acceleration for scroll-bound animations */
-    .gpu-accelerate {
-        will-change: transform, opacity, filter;
-        transform: translateZ(0);
-        backface-visibility: hidden;
-    }
 }
 
 /* Global Noise Overlay Filter via SVG turbulence */

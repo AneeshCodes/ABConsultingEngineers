@@ -17,14 +17,12 @@ const lenis = new Lenis({
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // exponential decay
     smoothWheel: true,   // smooth mouse wheel specifically
     touchMultiplier: 2,  // keep trackpad/touch responsive
-    syncTouch: true,     // sync touch scroll with the main thread to prevent GSAP desync on mobile
 });
 
 // Sync Lenis scroll position → GSAP ScrollTrigger
 lenis.on('scroll', ScrollTrigger.update);
 
-// Normalize scroll on mobile to prevent URL bar show/hide jumps
-ScrollTrigger.normalizeScroll(true);
+// Prevent URL bar show/hide jumps without hijacking native scroll
 ScrollTrigger.config({ ignoreMobileResize: true });
 
 gsap.ticker.add((time) => {

@@ -100,12 +100,12 @@ const Projects = () => {
                 {projectsData.map((project, idx) => (
                     <div
                         key={idx}
-                        className="relative w-[85vw] md:w-[60vw] lg:w-[45vw] h-full rounded-[2rem] overflow-hidden group border border-white/5 bg-textDark gpu-accelerate"
+                        className="relative w-[85vw] md:w-[60vw] lg:w-[45vw] h-full rounded-[2rem] overflow-hidden group border border-white/5 bg-textDark"
                     >
                         {/* Background Image Container */}
                         <div className="absolute inset-0 w-[120%] -left-[10%] h-full">
                             <div
-                                className="project-img gpu-accelerate w-full h-full bg-cover bg-center transition-transform duration-1000 group-hover:scale-105"
+                                className="project-img w-full h-full bg-cover bg-center transition-transform duration-1000 group-hover:scale-105"
                                 style={{ backgroundImage: `url('${project.imageUrl}')` }}
                             />
                         </div>
