@@ -1,6 +1,13 @@
 const CALENDLY_URL = process.env.CALENDLY_URL || 'https://calendly.com/aneeshparasa/30min';
 const OWNER_EMAIL = 'aneeshparasa@gmail.com';
 
+// Escapes user input before embedding in HTML email templates (fixes XSS/injection in emails)
+const esc = (s) => String(s ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+
 async function brevoSend(payload) {
     const response = await fetch('https://api.brevo.com/v3/smtp/email', {
         method: 'POST',
@@ -36,7 +43,7 @@ async function sendEmail({ name, email, type }) {
             <td style="background-color:#0D0D12;padding:40px 48px;border-radius:16px 16px 0 0;">
               <p style="margin:0;color:#C9A84C;font-size:11px;font-family:'Courier New',monospace;letter-spacing:3px;text-transform:uppercase;">// AB Consulting Engineers</p>
               <h1 style="margin:16px 0 0;color:#ffffff;font-size:28px;font-weight:700;letter-spacing:-0.5px;line-height:1.3;">
-                Thanks for reaching out,<br/>${name}.
+                Thanks for reaching out,<br/>${esc(name)}.
               </h1>
             </td>
           </tr>
@@ -45,7 +52,7 @@ async function sendEmail({ name, email, type }) {
           <tr>
             <td style="background-color:#ffffff;padding:40px 48px;border-left:1px solid #e8e4de;border-right:1px solid #e8e4de;">
               <p style="margin:0 0 24px;color:#2A2A35;font-size:16px;line-height:1.7;">
-                We've received your enquiry${type ? ` regarding <strong>${type}</strong>` : ''} and our team will review your project parameters shortly.
+                We've received your enquiry${type ? ` regarding <strong>${esc(type)}</strong>` : ''} and our team will review your project parameters shortly.
               </p>
               <p style="margin:0 0 32px;color:#2A2A35;font-size:16px;line-height:1.7;">
                 In the meantime, you're welcome to book a <strong>free 30-minute diagnostic call</strong> directly in our calendar. We'll use the time to understand your site conditions, timeline, and any structural constraints — so we can hit the ground running.
@@ -98,40 +105,77 @@ async function sendOwnerNotification({ name, email, phone, type, message }) {
     await brevoSend({
         sender: { name: 'AB Consulting Website', email: process.env.BREVO_FROM_EMAIL },
         to: [{ email: OWNER_EMAIL, name: 'Aneesh' }],
-        subject: `New enquiry from ${name}`,
+        subject: `New enquiry from ${esc(name)}`,
         htmlContent: `
 <p><strong>New form submission from the AB Consulting website:</strong></p>
 <table style="border-collapse:collapse;font-family:sans-serif;font-size:14px;">
-  <tr><td style="padding:6px 16px 6px 0;color:#888;">Name</td><td style="padding:6px 0;"><strong>${name}</strong></td></tr>
-  <tr><td style="padding:6px 16px 6px 0;color:#888;">Email</td><td style="padding:6px 0;"><a href="mailto:${email}">${email}</a></td></tr>
-  <tr><td style="padding:6px 16px 6px 0;color:#888;">Phone</td><td style="padding:6px 0;">${phone || '—'}</td></tr>
-  <tr><td style="padding:6px 16px 6px 0;color:#888;">Project type</td><td style="padding:6px 0;">${type || '—'}</td></tr>
-  <tr><td style="padding:6px 16px 6px 0;color:#888;vertical-align:top;">Message</td><td style="padding:6px 0;">${message || '—'}</td></tr>
+  <tr><td style="padding:6px 16px 6px 0;color:#888;">Name</td><td style="padding:6px 0;"><strong>${esc(name)}</strong></td></tr>
+  <tr><td style="padding:6px 16px 6px 0;color:#888;">Email</td><td style="padding:6px 0;"><a href="mailto:${esc(email)}">${esc(email)}</a></td></tr>
+  <tr><td style="padding:6px 16px 6px 0;color:#888;">Phone</td><td style="padding:6px 0;">${esc(phone) || '—'}</td></tr>
+  <tr><td style="padding:6px 16px 6px 0;color:#888;">Project type</td><td style="padding:6px 0;">${esc(type) || '—'}</td></tr>
+  <tr><td style="padding:6px 16px 6px 0;color:#888;vertical-align:top;">Message</td><td style="padding:6px 0;">${esc(message) || '—'}</td></tr>
 </table>
         `.trim(),
     });
 }
 
 export default async function handler(req, res) {
-    if (req.method !== 'POST') {
-        return res.status(405).json({ error: 'Method not allowed' });
+    // --- CORS: only allow requests from the production domain ---
+    const allowedOrigins = [
+        'https://ab-consulting-engineers.vercel.app',
+        ...(process.env.ALLOWED_ORIGIN ? [process.env.ALLOWED_ORIGIN] : []),
+    ];
+    const origin = req.headers.origin;
+    if (origin && allowedOrigins.includes(origin)) {
+        res.setHeader('Access-Control-Allow-Origin', origin);
+    }
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Accept');
+
+    if (req.method === 'OPTIONS') return res.status(200).end();
+    if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+
+    // --- Startup env var check (1.6) ---
+    if (!process.env.BREVO_API_KEY || !process.env.BREVO_FROM_EMAIL) {
+        console.error('Missing required env vars: BREVO_API_KEY or BREVO_FROM_EMAIL');
+        return res.status(500).json({ error: 'Service configuration error' });
+    }
+
+    // --- Rate limiting via Upstash (activates only when env vars are set) ---
+    if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
+        const { Ratelimit } = await import('@upstash/ratelimit');
+        const { Redis } = await import('@upstash/redis');
+        const ratelimit = new Ratelimit({
+            redis: Redis.fromEnv(),
+            limiter: Ratelimit.slidingWindow(5, '1 h'),
+        });
+        const ip = (req.headers['x-forwarded-for'] ?? '127.0.0.1').split(',')[0].trim();
+        const { success } = await ratelimit.limit(ip);
+        if (!success) {
+            return res.status(429).json({ error: 'Too many requests. Please try again later.' });
+        }
     }
 
     const { name, email, phone, type, message } = req.body;
 
-    if (!name || !email) {
-        return res.status(400).json({ error: 'Name and email are required' });
+    // --- Input validation (4.1) ---
+    if (!name || typeof name !== 'string' || name.trim().length === 0) {
+        return res.status(400).json({ error: 'Name is required' });
+    }
+    if (!email || typeof email !== 'string' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        return res.status(400).json({ error: 'Valid email is required' });
+    }
+    if (name.length > 200 || email.length > 200 || (message && message.length > 5000)) {
+        return res.status(400).json({ error: 'Input exceeds maximum allowed length' });
     }
 
     const errors = [];
 
     // --- Send confirmation email to submitter ---
-    let emailError = null;
     try {
         await sendEmail({ name, email, type });
     } catch (err) {
         console.error('Email error:', err);
-        emailError = err.message;
         errors.push('email');
     }
 
@@ -159,12 +203,11 @@ export default async function handler(req, res) {
             });
         } catch (err) {
             console.error('Twilio error:', err);
-            errors.push('sms');
         }
     }
 
     if (errors.includes('email')) {
-        return res.status(500).json({ error: 'Failed to send confirmation email', detail: emailError });
+        return res.status(500).json({ error: 'Failed to send confirmation email' });
     }
 
     return res.status(200).json({ success: true });
