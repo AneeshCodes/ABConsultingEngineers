@@ -7,6 +7,7 @@ gsap.registerPlugin(ScrollTrigger);
 const Consultation = () => {
     const containerRef = useRef(null);
     const formRef = useRef(null);
+    const dropdownRef = useRef(null);
     const [formStatus, setFormStatus] = useState('idle'); // idle, loading, success, error
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [selectedType, setSelectedType] = useState("");
@@ -56,6 +57,25 @@ const Consultation = () => {
         }, containerRef);
         return () => ctx.revert();
     }, []);
+
+    // Clickaway listener for the custom dropdown
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setIsDropdownOpen(false);
+            }
+        };
+
+        if (isDropdownOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+        } else {
+            document.removeEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isDropdownOpen]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -154,7 +174,7 @@ const Consultation = () => {
                                     </div>
                                 </div>
 
-                                <div className="form-element flex flex-col gap-2 relative">
+                                <div ref={dropdownRef} className="form-element flex flex-col gap-2 relative z-50">
                                     <label className="text-sm font-mono text-white/40 uppercase tracking-wider">03. Project Classification</label>
 
                                     {/* Custom Dropdown Trigger */}
