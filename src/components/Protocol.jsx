@@ -90,15 +90,8 @@ const Protocol = () => {
             const dwellPadding = 35; // vh of extra hold — lets the weighted scrub fully finish Phase 3
             const totalScroll = numTransitions * scrollPerTransition + dwellPadding;
 
-            // Pin the wrapper for exactly the scroll distance we need
-            ScrollTrigger.create({
-                trigger: wrapRef.current,
-                start: "top top",
-                end: `+=${totalScroll}vh`,
-                pin: true,
-                pinSpacing: true,
-                anticipatePin: 1,
-            });
+            // We use native CSS sticky instead of GSAP pinning for vastly superior mobile momentum.
+            // No ScrollTrigger.create({ pin: true }) needed!
 
             // Apple-style: cards lift upward, scale, blur, and fade — with weighted scrub lag
             cards.forEach((card, i) => {
@@ -110,7 +103,7 @@ const Protocol = () => {
                         filter: "blur(10px)",
                         ease: "power1.in",
                         scrollTrigger: {
-                            trigger: wrapRef.current,
+                            trigger: containerRef.current,
                             start: () => `top -${i * scrollPerTransition}vh`,
                             end: () => `top -${(i + 1) * scrollPerTransition}vh`,
                             scrub: 1.2, // weighted lag — the Apple signature feel
@@ -124,8 +117,8 @@ const Protocol = () => {
     }, []);
 
     return (
-        <section id="protocol" ref={containerRef} className="bg-primary pt-32 relative text-background">
-            <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-24 mb-16">
+        <section id="protocol" className="bg-primary text-background">
+            <div className="pt-32 max-w-6xl mx-auto px-6 md:px-12 lg:px-24 mb-16 relative z-20">
                 <h2 className="text-5xl md:text-6xl lg:text-7xl font-sans font-bold tracking-tight text-background mb-4">
                     The <span className="font-drama italic text-accent">Protocol.</span>
                 </h2>
@@ -134,11 +127,15 @@ const Protocol = () => {
                 </p>
             </div>
 
-            <div ref={wrapRef} className="h-[100dvh] w-full relative bg-primary flex items-center justify-center">
-                <div className="w-full max-w-6xl h-[85vh] relative mx-auto overflow-hidden">
-                    {protocols.map((p, i) => (
-                        <ProtocolCard key={i} data={p} index={i} />
-                    ))}
+            {/* The native scrolling track that determines total scroll duration */}
+            <div ref={containerRef} className="relative w-full z-10" style={{ height: '225vh' }}>
+                {/* The visually pinned frame */}
+                <div className="sticky top-0 w-full h-[100dvh] flex items-center justify-center p-6 md:p-12 lg:p-24 overflow-hidden">
+                    <div ref={wrapRef} className="relative w-full max-w-5xl h-full flex items-center justify-center">
+                        {protocols.map((p, i) => (
+                            <ProtocolCard key={i} data={p} index={i} />
+                        ))}
+                    </div>
                 </div>
             </div>
         </section>

@@ -47,18 +47,21 @@ const Projects = () => {
                 return scrollAmount;
             };
 
-            // GSAP Horizontal Scroll with Pin
+            // Set tall container height exactly to viewport + scroll distance
+            gsap.set(containerRef.current, {
+                height: () => window.innerHeight + updateScroll()
+            });
+
+            // GSAP Horizontal Scroll without JS Pin
             gsap.to(slider, {
                 x: () => -updateScroll(),
                 ease: "none",
                 scrollTrigger: {
                     trigger: containerRef.current,
                     start: "top top",
-                    end: () => `+=${updateScroll()}`,
-                    pin: true,
+                    end: "bottom bottom",
                     scrub: 1.2, // Match the Apple-esque weighted scrub from Protocol
                     invalidateOnRefresh: true, // Recalculate on resize
-                    anticipatePin: 1,
                 }
             });
 
@@ -86,48 +89,52 @@ const Projects = () => {
     }, []);
 
     return (
-        <section id="projects" ref={containerRef} className="bg-primary pt-32 h-[100dvh] overflow-hidden flex flex-col justify-center">
-            <div className="px-6 md:px-12 lg:px-24 mb-12 shrink-0">
-                <h2 className="text-5xl md:text-6xl font-sans font-bold tracking-tight text-background">
-                    Recent <span className="font-drama italic text-accent">Proof of Work.</span>
-                </h2>
-                <p className="text-xl font-sans text-background/60 mt-4 max-w-2xl">
-                    From complex institutional retrofits to large-scale residential and industrial infrastructure.
-                </p>
-            </div>
-
-            <div ref={sliderRef} className="flex gap-8 px-6 md:px-12 lg:px-24 pb-16 h-[60vh] w-max select-none">
-                {projectsData.map((project, idx) => (
-                    <div
-                        key={idx}
-                        className="relative w-[85vw] md:w-[60vw] lg:w-[45vw] h-full rounded-[2rem] overflow-hidden group border border-white/5 bg-textDark"
-                    >
-                        {/* Background Image Container */}
-                        <div className="absolute inset-0 w-[120%] -left-[10%] h-full">
-                            <div
-                                className="project-img w-full h-full bg-cover bg-center transition-transform duration-1000 group-hover:scale-105"
-                                style={{ backgroundImage: `url('${project.imageUrl}')` }}
-                            />
-                        </div>
-
-                        {/* Dark Gradient Overlay for text readability */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/40 to-transparent" />
-
-                        {/* Content */}
-                        <div className="absolute bottom-0 left-0 w-full p-8 md:p-12">
-                            <div className="flex items-center gap-4 mb-4">
-                                <span className="text-accent font-mono text-sm font-bold tracking-widest uppercase">Project // 0{idx + 1}</span>
-                                <div className="h-px bg-accent/30 flex-1" />
-                            </div>
-                            <h3 className="text-2xl md:text-3xl lg:text-4xl font-sans font-bold text-background mb-3 leading-tight text-balance">
-                                {project.name}
-                            </h3>
-                            <p className="text-background/70 font-sans text-lg max-w-lg text-balance">
-                                {project.description}
-                            </p>
-                        </div>
+        <section id="projects" className="bg-primary w-full relative">
+            <div ref={containerRef} className="relative w-full">
+                <div className="sticky top-0 w-full h-[100dvh] pt-32 overflow-hidden flex flex-col justify-center">
+                    <div className="px-6 md:px-12 lg:px-24 mb-12 shrink-0">
+                        <h2 className="text-5xl md:text-6xl font-sans font-bold tracking-tight text-background">
+                            Recent <span className="font-drama italic text-accent">Proof of Work.</span>
+                        </h2>
+                        <p className="text-xl font-sans text-background/60 mt-4 max-w-2xl">
+                            From complex institutional retrofits to large-scale residential and industrial infrastructure.
+                        </p>
                     </div>
-                ))}
+
+                    <div ref={sliderRef} className="flex gap-8 px-6 md:px-12 lg:px-24 pb-16 h-[60vh] w-max select-none">
+                        {projectsData.map((project, idx) => (
+                            <div
+                                key={idx}
+                                className="relative w-[85vw] md:w-[60vw] lg:w-[45vw] h-full rounded-[2rem] overflow-hidden group border border-white/5 bg-textDark"
+                            >
+                                {/* Background Image Container */}
+                                <div className="absolute inset-0 w-[120%] -left-[10%] h-full">
+                                    <div
+                                        className="project-img w-full h-full bg-cover bg-center transition-transform duration-1000 group-hover:scale-105"
+                                        style={{ backgroundImage: `url('${project.imageUrl}')` }}
+                                    />
+                                </div>
+
+                                {/* Dark Gradient Overlay for text readability */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/40 to-transparent" />
+
+                                {/* Content */}
+                                <div className="absolute bottom-0 left-0 w-full p-8 md:p-12">
+                                    <div className="flex items-center gap-4 mb-4">
+                                        <span className="text-accent font-mono text-sm font-bold tracking-widest uppercase">Project // 0{idx + 1}</span>
+                                        <div className="h-px bg-accent/30 flex-1" />
+                                    </div>
+                                    <h3 className="text-2xl md:text-3xl lg:text-4xl font-sans font-bold text-background mb-3 leading-tight text-balance">
+                                        {project.name}
+                                    </h3>
+                                    <p className="text-background/70 font-sans text-lg max-w-lg text-balance">
+                                        {project.description}
+                                    </p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </div>
         </section>
     );
