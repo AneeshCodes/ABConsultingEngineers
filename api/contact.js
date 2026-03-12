@@ -1,5 +1,3 @@
-import twilio from 'twilio';
-
 const CALENDLY_URL = process.env.CALENDLY_URL || 'https://calendly.com/aneeshparasa/30min';
 
 async function sendEmail({ name, email, type }) {
@@ -124,6 +122,7 @@ export default async function handler(req, res) {
         process.env.TWILIO_FROM_NUMBER
     ) {
         try {
+            const { default: twilio } = await import('twilio');
             const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
             await client.messages.create({
                 body: `Hi ${name}, thanks for contacting AB Consulting Engineers. We'll be in touch shortly. Book a free diagnostic call: ${CALENDLY_URL}`,
