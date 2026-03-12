@@ -98,9 +98,12 @@ const Hero = () => {
                     Chartered Structural & Civil Engineers
                 </p>
                 <h1 className="text-background text-5xl md:text-7xl lg:text-8xl leading-[1.05] tracking-tight">
-                    <span className="hero-text font-sans font-bold block mb-2">Structural Excellence meets</span>
-                    <span className="hero-text font-drama italic block text-accent text-6xl md:text-8xl lg:text-9xl mt-2">Precision.</span>
+                    <span className="hero-text font-sans font-bold block mb-2">Practical Design meets</span>
+                    <span className="hero-text font-drama italic block text-accent text-6xl md:text-8xl lg:text-9xl mt-2">Structural Integrity.</span>
                 </h1>
+                <p className="hero-text text-xl md:text-2xl font-sans text-background/80 max-w-2xl text-balance mt-4">
+                    Expert civil and structural engineering for residential, commercial, industrial, and infrastructure projects across New Zealand.
+                </p>
                 <div className="hero-text mt-12 flex flex-col sm:flex-row flex-wrap gap-4 items-center w-full sm:w-auto">
                     <a href="#consultation" className="btn-magnetic btn-primary group w-full sm:w-auto inline-flex items-center justify-center">
                         <span className="relative z-10 font-bold">Start Your Project Conversation</span>

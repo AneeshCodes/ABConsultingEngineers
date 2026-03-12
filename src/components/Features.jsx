@@ -4,9 +4,9 @@ import { MousePointer2 } from 'lucide-react';
 
 const DiagnosticShuffler = () => {
     const [cards, setCards] = useState([
-        { id: 1, title: '22+ Years Global', desc: 'UK, Middle East, India, and NZ expertise.' },
-        { id: 2, title: 'Waikato Precision', desc: 'Intimate knowledge of local soil, councils, and codes.' },
-        { id: 3, title: 'Hands-on Approach', desc: 'Direct partner involvement in every design phase.' },
+        { id: 1, title: 'Structural Design', desc: 'New builds and refurbishments for residential, commercial, industrial and institutional buildings.' },
+        { id: 2, title: 'Seismic Assessments', desc: 'Condition assessments, Initial (ISA) and Detailed (DSA) seismic assessments, and structural strengthening.' },
+        { id: 3, title: 'Civil Engineering', desc: 'Retaining walls, pile/pad/raft foundations, large storage tanks, culverts and manholes.' },
     ]);
 
     useEffect(() => {
@@ -51,7 +51,7 @@ const DiagnosticShuffler = () => {
 };
 
 const TelemetryTypewriter = () => {
-    const text = "From seismic risk to structural confidence... Specializing in ISA-DSA seismic assessment, unreinforced masonry, and strengthening. Protecting buildings and the people inside.";
+    const text = "We are registered producer statement authors with Auckland Council (PS1, PS2, and PS4). From unreinforced masonry assessments to heavy industrial infrastructure—protecting your investments and the people inside.";
     const [displayedText, setDisplayedText] = useState("");
 
     useEffect(() => {
@@ -134,8 +134,8 @@ const CursorProtocolScheduler = () => {
     return (
         <div ref={containerRef} className="w-full h-[320px] rounded-[2rem] bg-background border border-textDark/10 p-8 flex flex-col justify-between shadow-xl relative overflow-hidden">
             <div>
-                <h3 className="text-xl font-bold text-primary mb-3">Council-vetted, Government-approved</h3>
-                <p className="text-sm text-textDark/70 mb-6 leading-relaxed">PS1, PS2, PS4 authors; CoLab Supplier Panel; Waikato DHB Roster.</p>
+                <h3 className="text-xl font-bold text-primary mb-3">Council-Vetted Engineering</h3>
+                <p className="text-sm text-textDark/70 mb-6 leading-relaxed">Registered with Engineering New Zealand and IStructE (UK). Approved PS1, PS2, and PS4 authors.</p>
                 <div className="flex justify-between w-full max-w-[260px]">
                     {days.map((d, i) => (
                         <div
@@ -167,10 +167,10 @@ const Features = () => {
             <div className="max-w-6xl mx-auto">
                 <div className="mb-24">
                     <h2 className="text-5xl md:text-6xl lg:text-7xl font-sans font-bold tracking-tight text-primary mb-8">
-                        Interactive Functional <span className="font-drama italic text-accent">Artifacts.</span>
+                        Our Comprehensive <span className="font-drama italic text-accent">Expertise.</span>
                     </h2>
                     <p className="text-xl font-sans text-textDark/70 max-w-2xl text-balance leading-relaxed">
-                        Our engineering process is visible, precise, and rigorous. Every decision is calculated, ensuring international expertise meets local precision.
+                        We provide rigorous structural design and assessment services, ensuring every project meets the highest standards of safety, compliance, and reliability.
                     </p>
                 </div>
 

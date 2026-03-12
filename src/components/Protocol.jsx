@@ -7,18 +7,18 @@ gsap.registerPlugin(ScrollTrigger);
 const protocols = [
     {
         num: "01",
-        title: "Intelligent Diagnostic",
-        desc: "Structural forensics and comprehensive capacity evaluation before schematic intervention."
+        title: "Site & Structural Assessment",
+        desc: "Thorough condition and seismic evaluation of existing structures and new building sites before design begins."
     },
     {
         num: "02",
-        title: "Precision Modeling",
-        desc: "Finite element analysis tailored to New Zealand soil composition and seismic hazard factors."
+        title: "Engineering Design",
+        desc: "Practical, safe, and innovative structural design using advanced modeling for buildings and civil infrastructure."
     },
     {
         num: "03",
-        title: "Governed Execution",
-        desc: "End-to-end design delivery verified by PS1, PS2, and PS4 council-approved authoring."
+        title: "Council Compliance",
+        desc: "End-to-end delivery of construction documents, including PS1, PS2, and PS4 producer statements."
     }
 ];
 
@@ -122,10 +122,10 @@ const Protocol = () => {
                     {/* Title inside sticky container */}
                     <div className="w-full max-w-6xl mx-auto px-6 md:px-12 lg:px-24 mb-10 shrink-0">
                         <h2 className="text-4xl md:text-5xl lg:text-7xl font-sans font-bold tracking-tight text-background mb-4">
-                            The <span className="font-drama italic text-accent">Protocol.</span>
+                            How we <span className="font-drama italic text-accent">Deliver.</span>
                         </h2>
                         <p className="text-lg md:text-xl font-sans text-background/60 max-w-2xl text-balance">
-                            Our rigid methodology for assessing and engineering structural brilliance.
+                            Our straightforward process for ensuring your project is designed, approved, and built safely.
                         </p>
                     </div>
 
