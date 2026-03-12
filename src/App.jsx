@@ -90,10 +90,10 @@ const Hero = () => {
                     <span className="hero-text font-drama italic block text-accent text-6xl md:text-8xl lg:text-9xl mt-2">Precision.</span>
                 </h1>
                 <div className="hero-text mt-12 flex flex-col sm:flex-row flex-wrap gap-4 items-center w-full sm:w-auto">
-                    <button className="btn-magnetic btn-primary group w-full sm:w-auto">
+                    <a href="#consultation" className="btn-magnetic btn-primary group w-full sm:w-auto inline-flex items-center justify-center">
                         <span className="relative z-10 font-bold">Start Your Project Conversation</span>
                         <div className="btn-bg" />
-                    </button>
+                    </a>
                     <a href="#projects" className="btn-magnetic btn-secondary group w-full sm:w-auto ml-0 sm:ml-4">
                         <span className="relative z-10 font-sans">View Our Work</span>
                         <div className="btn-bg" />

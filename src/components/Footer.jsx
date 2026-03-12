@@ -32,12 +32,12 @@ const Footer = () => {
 
                     <div className="col-span-1 md:col-span-4">
                         <h4 className="font-mono text-accent text-sm mb-6 uppercase tracking-widest">Initiate</h4>
-                        <button className="btn-magnetic btn-primary w-full group mb-8 border border-transparent hover:border-accent/40 rounded-[2rem] overflow-hidden relative">
+                        <a href="#consultation" className="mt-8 md:mt-0 btn-magnetic group relative inline-flex flex-shrink-0 items-center justify-center gap-4 bg-accent text-primary px-10 py-5 rounded-[3rem] overflow-hidden w-full md:w-auto hover:shadow-[0_0_50px_rgba(201,168,76,0.2)] transition-shadow duration-300">
                             <span className="relative z-10 font-bold">Start Your Project Conversation</span>
-                            <div className="btn-bg" />
-                        </button>
+                            <div className="absolute inset-0 bg-white/30 translate-y-[100%] transition-transform duration-500 rounded-[3rem] group-hover:translate-y-0 mix-blend-overlay" />
+                        </a>
 
-                        <div className="space-y-2 font-mono text-background/60 text-xs">
+                        <div className="space-y-2 font-mono text-background/60 text-xs mt-8">
                             <p className="flex justify-between border-b border-background/10 pb-2">
                                 <span>1074 River Road, Queenwood</span>
                                 <span className="text-right">Hamilton 3210</span>
