@@ -53,7 +53,7 @@ const Consultation = () => {
 
         try {
             // Replace this specific string with your actual Formspree or custom endpoint
-            const response = await fetch("YOUR_FORMSPREE_ENDPOINT_URL", {
+            const response = await fetch("https://formspree.io/f/xyknjkew", {
                 method: "POST",
                 body: new FormData(e.target),
                 headers: {
