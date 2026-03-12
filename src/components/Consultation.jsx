@@ -81,19 +81,29 @@ const Consultation = () => {
         e.preventDefault();
         setFormStatus('loading');
 
+        const form = e.target;
+        const body = {
+            name: form.name.value,
+            email: form.email.value,
+            phone: form.phone.value,
+            type: selectedType,
+            message: form.message.value,
+        };
+
         try {
-            // Replace this specific string with your actual Formspree or custom endpoint
-            const response = await fetch("https://formspree.io/f/xyknjkew", {
+            const response = await fetch("/api/contact", {
                 method: "POST",
-                body: new FormData(e.target),
+                body: JSON.stringify(body),
                 headers: {
-                    'Accept': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
                 }
             });
 
             if (response.ok) {
                 setFormStatus('success');
-                e.target.reset();
+                form.reset();
+                setSelectedType("");
             } else {
                 setFormStatus('error');
             }
