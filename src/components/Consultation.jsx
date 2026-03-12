@@ -150,14 +150,15 @@ const Consultation = () => {
                                         id="type"
                                         name="type"
                                         required
+                                        defaultValue=""
                                         className="w-full bg-textDark border-b border-white/10 text-white/70 px-4 py-4 focus:outline-none focus:border-accent focus:bg-white/5 transition-all rounded-t-xl appearance-none cursor-pointer"
                                     >
-                                        <option value="" disabled selected>Select Infrastructure Scope...</option>
-                                        <option value="Seismic Assessment">Seismic Assessment (DSA / ISA)</option>
-                                        <option value="Commercial Infrastructure">Commercial / Institutional Frameworks</option>
-                                        <option value="Industrial Retrofit">Industrial Pipe Supports & Retrofits</option>
-                                        <option value="Residential Engineering">High-End Residential Structural</option>
-                                        <option value="Other">Other / Unknown Scope</option>
+                                        <option value="" disabled className="bg-textDark text-white/50">Select Infrastructure Scope...</option>
+                                        <option value="Seismic Assessment" className="bg-textDark text-white">Seismic Assessment (DSA / ISA)</option>
+                                        <option value="Commercial Infrastructure" className="bg-textDark text-white">Commercial / Institutional Frameworks</option>
+                                        <option value="Industrial Retrofit" className="bg-textDark text-white">Industrial Pipe Supports & Retrofits</option>
+                                        <option value="Residential Engineering" className="bg-textDark text-white">High-End Residential Structural</option>
+                                        <option value="Other" className="bg-textDark text-white">Other / Unknown Scope</option>
                                     </select>
                                 </div>
 
