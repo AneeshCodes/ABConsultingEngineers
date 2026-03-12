@@ -99,9 +99,10 @@ const Protocol = () => {
                         ease: "power2.inOut", // smooth entrance and exit, not sharp
                         scrollTrigger: {
                             trigger: containerRef.current,
+                            // Cards start entering earlier and finish entering faster
                             start: `${i * scrollPerCard}% top`,
-                            end: `${(i + 1) * scrollPerCard}% top`,
-                            scrub: 1.5, // slightly more weighted lag for smoother interpolation
+                            end: `${(i * scrollPerCard) + 20}% top`,
+                            scrub: 1.2, // slightly reduced lag for livelier feel
                         }
                     });
                 }

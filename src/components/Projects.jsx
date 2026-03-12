@@ -47,20 +47,20 @@ const Projects = () => {
                 return scrollAmount;
             };
 
-            // Set tall container height exactly to viewport + scroll distance
+            // Give the horizontal scroll a lot more vertical 'runway' for butter-smooth scrubbing
             gsap.set(containerRef.current, {
-                height: () => window.innerHeight + updateScroll()
+                height: () => window.innerHeight * 2 + updateScroll()
             });
 
             // GSAP Horizontal Scroll without JS Pin
             gsap.to(slider, {
                 x: () => -updateScroll(),
-                ease: "none",
+                ease: "sine.inOut", // Glossy, slow-in slow-out curve instead of harsh linear
                 scrollTrigger: {
                     trigger: containerRef.current,
                     start: "top top",
                     end: "bottom bottom",
-                    scrub: 1.2, // Match the Apple-esque weighted scrub from Protocol
+                    scrub: 1.5, // Deepen the weighted scrub to match Protocol's Apple feel
                     invalidateOnRefresh: true, // Recalculate on resize
                 }
             });
