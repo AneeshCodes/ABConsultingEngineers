@@ -1,4 +1,20 @@
 const CALENDLY_URL = process.env.CALENDLY_URL || 'https://calendly.com/aneeshparasa/30min';
+const OWNER_EMAIL = 'aneeshparasa@gmail.com';
+
+async function brevoSend(payload) {
+    const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+        method: 'POST',
+        headers: {
+            'api-key': process.env.BREVO_API_KEY,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+    });
+    if (!response.ok) {
+        const error = await response.text();
+        throw new Error(`Brevo error: ${error}`);
+    }
+}
 
 async function sendEmail({ name, email, type }) {
     const htmlContent = `
@@ -70,27 +86,30 @@ async function sendEmail({ name, email, type }) {
 </body>
 </html>`.trim();
 
-    const response = await fetch('https://api.brevo.com/v3/smtp/email', {
-        method: 'POST',
-        headers: {
-            'api-key': process.env.BREVO_API_KEY,
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            sender: {
-                name: 'AB Consulting Engineers',
-                email: process.env.BREVO_FROM_EMAIL,
-            },
-            to: [{ email, name }],
-            subject: 'Thanks for reaching out — AB Consulting Engineers',
-            htmlContent,
-        }),
+    await brevoSend({
+        sender: { name: 'AB Consulting Engineers', email: process.env.BREVO_FROM_EMAIL },
+        to: [{ email, name }],
+        subject: 'Thanks for reaching out — AB Consulting Engineers',
+        htmlContent,
     });
+}
 
-    if (!response.ok) {
-        const error = await response.text();
-        throw new Error(`Brevo error: ${error}`);
-    }
+async function sendOwnerNotification({ name, email, phone, type, message }) {
+    await brevoSend({
+        sender: { name: 'AB Consulting Website', email: process.env.BREVO_FROM_EMAIL },
+        to: [{ email: OWNER_EMAIL, name: 'Aneesh' }],
+        subject: `New enquiry from ${name}`,
+        htmlContent: `
+<p><strong>New form submission from the AB Consulting website:</strong></p>
+<table style="border-collapse:collapse;font-family:sans-serif;font-size:14px;">
+  <tr><td style="padding:6px 16px 6px 0;color:#888;">Name</td><td style="padding:6px 0;"><strong>${name}</strong></td></tr>
+  <tr><td style="padding:6px 16px 6px 0;color:#888;">Email</td><td style="padding:6px 0;"><a href="mailto:${email}">${email}</a></td></tr>
+  <tr><td style="padding:6px 16px 6px 0;color:#888;">Phone</td><td style="padding:6px 0;">${phone || '—'}</td></tr>
+  <tr><td style="padding:6px 16px 6px 0;color:#888;">Project type</td><td style="padding:6px 0;">${type || '—'}</td></tr>
+  <tr><td style="padding:6px 16px 6px 0;color:#888;vertical-align:top;">Message</td><td style="padding:6px 0;">${message || '—'}</td></tr>
+</table>
+        `.trim(),
+    });
 }
 
 export default async function handler(req, res) {
@@ -106,7 +125,7 @@ export default async function handler(req, res) {
 
     const errors = [];
 
-    // --- Send confirmation email via Brevo ---
+    // --- Send confirmation email to submitter ---
     let emailError = null;
     try {
         await sendEmail({ name, email, type });
@@ -114,6 +133,13 @@ export default async function handler(req, res) {
         console.error('Email error:', err);
         emailError = err.message;
         errors.push('email');
+    }
+
+    // --- Send notification email to owner ---
+    try {
+        await sendOwnerNotification({ name, email, phone, type, message });
+    } catch (err) {
+        console.error('Owner notification error:', err);
     }
 
     // --- Send SMS via Twilio (only runs if env vars are set) ---
