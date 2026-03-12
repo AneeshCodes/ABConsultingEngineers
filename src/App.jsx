@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
@@ -7,8 +8,11 @@ import Features from './components/Features';
 import Philosophy from './components/Philosophy';
 import Protocol from './components/Protocol';
 import Projects from './components/Projects';
+import Team from './components/Team';
 import Consultation from './components/Consultation';
 import Footer from './components/Footer';
+
+import CaseStudy from './pages/CaseStudy';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -104,24 +108,38 @@ const Hero = () => {
     );
 };
 
-const App = () => {
+const LandingPage = () => {
     return (
-        <div className="bg-primary min-h-screen text-background relative">
-            <svg className="pointer-events-none fixed inset-0 z-[9999] h-full w-full opacity-5 mix-blend-overlay">
-                <filter id="noiseFilter">
-                    <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
-                </filter>
-                <rect width="100%" height="100%" filter="url(#noiseFilter)" />
-            </svg>
+        <>
             <Navbar />
             <Hero />
             <Features />
             <Philosophy />
             <Protocol />
             <Projects />
+            <Team />
             <Consultation />
             <Footer />
-        </div>
+        </>
+    );
+};
+
+const App = () => {
+    return (
+        <Router>
+            <div className="bg-primary min-h-screen text-background relative">
+                <svg className="pointer-events-none fixed inset-0 z-[9999] h-full w-full opacity-5 mix-blend-overlay">
+                    <filter id="noiseFilter">
+                        <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
+                    </filter>
+                    <rect width="100%" height="100%" filter="url(#noiseFilter)" />
+                </svg>
+                <Routes>
+                    <Route path="/" element={<LandingPage />} />
+                    <Route path="/case-studies/:id" element={<CaseStudy />} />
+                </Routes>
+            </div>
+        </Router>
     );
 };
 

@@ -149,7 +149,7 @@ const Consultation = () => {
                             </div>
                         ) : (
                             <form onSubmit={handleSubmit} className="flex flex-col gap-6 relative">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                     <div className="form-element flex flex-col gap-2">
                                         <label htmlFor="name" className="text-sm font-mono text-white/40 uppercase tracking-wider">01. Entity / Contact</label>
                                         <input
@@ -162,20 +162,30 @@ const Consultation = () => {
                                         />
                                     </div>
                                     <div className="form-element flex flex-col gap-2">
-                                        <label htmlFor="email" className="text-sm font-mono text-white/40 uppercase tracking-wider">02. Communication</label>
+                                        <label htmlFor="email" className="text-sm font-mono text-white/40 uppercase tracking-wider">02. Secure Email</label>
                                         <input
                                             type="email"
                                             id="email"
                                             name="email"
                                             required
-                                            placeholder="Secure Email Address"
+                                            placeholder="address@domain.com"
+                                            className="w-full bg-textDark border-b border-white/10 text-white px-4 py-4 focus:outline-none focus:border-accent focus:bg-white/5 transition-all rounded-t-xl"
+                                        />
+                                    </div>
+                                    <div className="form-element flex flex-col gap-2">
+                                        <label htmlFor="phone" className="text-sm font-mono text-white/40 uppercase tracking-wider">03. Direct Line</label>
+                                        <input
+                                            type="tel"
+                                            id="phone"
+                                            name="phone"
+                                            placeholder="+64 Phone Number"
                                             className="w-full bg-textDark border-b border-white/10 text-white px-4 py-4 focus:outline-none focus:border-accent focus:bg-white/5 transition-all rounded-t-xl"
                                         />
                                     </div>
                                 </div>
 
                                 <div ref={dropdownRef} className="form-element flex flex-col gap-2 relative z-50">
-                                    <label className="text-sm font-mono text-white/40 uppercase tracking-wider">03. Project Classification</label>
+                                    <label className="text-sm font-mono text-white/40 uppercase tracking-wider">04. Project Classification</label>
 
                                     {/* Custom Dropdown Trigger */}
                                     <div
@@ -221,7 +231,7 @@ const Consultation = () => {
                                 </div>
 
                                 <div className="form-element flex flex-col gap-2">
-                                    <label htmlFor="message" className="text-sm font-mono text-white/40 uppercase tracking-wider">04. Parameters & Forensics</label>
+                                    <label htmlFor="message" className="text-sm font-mono text-white/40 uppercase tracking-wider">05. Parameters & Forensics</label>
                                     <textarea
                                         id="message"
                                         name="message"

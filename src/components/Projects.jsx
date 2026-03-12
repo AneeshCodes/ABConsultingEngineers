@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -6,26 +7,31 @@ gsap.registerPlugin(ScrollTrigger);
 
 const projectsData = [
     {
+        id: "argyle-house",
         name: "Seismic Assessment of Argyle House, Hamilton Boys' High School",
         description: "Detailed Seismic Assessment (DSA) of dormitory and dining facilities, minimizing operational disruption.",
         imageUrl: "https://static.wixstatic.com/media/27804b_543ff9e86e494ae6934c7d2e0f0048a8~mv2.jpg/v1/fill/w_1920,h_1080,al_c,q_90/Structural%20Steel%20-%20Concrete%20Slab%20-%20Porta.jpg"
     },
     {
+        id: "northgate-church",
         name: "Northgate Community Church Extension",
         description: "Structural design for large column-free community spaces, adaptable for future scalability.",
         imageUrl: "https://static.wixstatic.com/media/27804b_bd602032ca024bb09f0fcaf6bfcd2fb7~mv2.jpg/v1/fill/w_1920,h_728,al_c,q_90/27804b_bd602032ca024bb09f0fcaf6bfcd2fb7~mv2.jpg"
     },
     {
+        id: "waikato-dhb",
         name: "Waikato District Health Board Infrastructure",
         description: "Structural services for heavy machinery installation and patient care deck extensions.",
         imageUrl: "https://static.wixstatic.com/media/27804b_8b28bafb719d4793afa884acb35935b0~mv2.jpg/v1/fill/w_1920,h_1640,al_c,q_90/Concrete%20Slab%20-%20Reinforcement%20-%20Precast%20Yard.jpg"
     },
     {
+        id: "retrofit-residential",
         name: "Retrofit of Residential Building",
         description: "Case study on ridge beam strengthening and comprehensive structural retrofitting.",
         imageUrl: "https://static.wixstatic.com/media/27804b_7490dc82b8374244b3658852d64bec43~mv2.jpg/v1/fill/w_1920,h_648,al_c,q_90/27804b_7490dc82b8374244b3658852d64bec43~mv2.jpg"
     },
     {
+        id: "industrial-supports",
         name: "Industrial Pipe Supports & Water Treatment",
         description: "Engineering solutions for complex industrial infrastructure and prefabricated building supports.",
         imageUrl: "https://static.wixstatic.com/media/27804b_e83dee358f1449028b2568aded08459f~mv2.jpg/v1/fill/w_1920,h_1252,al_c,q_90/Water%20Treatment%20Plant%20-%20Pipe%20Supports%20-%20Prefabricated%20Building.jpg"
@@ -103,9 +109,10 @@ const Projects = () => {
 
                     <div ref={sliderRef} className="flex gap-8 px-6 md:px-12 lg:px-24 pb-16 h-[60vh] w-max select-none">
                         {projectsData.map((project, idx) => (
-                            <div
+                            <Link
+                                to={`/case-studies/${project.id}`}
                                 key={idx}
-                                className="relative w-[85vw] md:w-[60vw] lg:w-[45vw] h-full rounded-[2rem] overflow-hidden group border border-white/5 bg-textDark"
+                                className="relative block w-[85vw] md:w-[60vw] lg:w-[45vw] h-full rounded-[2rem] overflow-hidden group border border-white/5 bg-textDark cursor-pointer"
                             >
                                 {/* Background Image Container */}
                                 <div className="absolute inset-0 w-[120%] -left-[10%] h-full">
@@ -131,7 +138,7 @@ const Projects = () => {
                                         {project.description}
                                     </p>
                                 </div>
-                            </div>
+                            </Link>
                         ))}
                     </div>
                 </div>
