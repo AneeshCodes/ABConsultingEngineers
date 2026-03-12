@@ -38,7 +38,10 @@ gsap.ticker.lagSmoothing(0);
 const Navbar = () => {
     return (
         <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-[500] w-[90%] max-w-5xl rounded-[3rem] px-8 py-4 backdrop-blur-xl bg-primary/60 border border-white/5 flex items-center justify-between transition-all duration-300">
-            <div className="font-sans font-bold text-background text-xl tracking-tight interactive-link cursor-pointer uppercase tracking-widest text-sm">
+            <div
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                className="font-sans font-bold text-background text-xl tracking-tight interactive-link cursor-pointer uppercase tracking-widest text-sm"
+            >
                 AB Consulting
             </div>
             <div className="hidden md:flex gap-8 text-background/80 font-sans text-sm tracking-wider">
