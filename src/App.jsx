@@ -1,5 +1,11 @@
 import React, { useEffect, useRef } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+
+const ScrollToTop = () => {
+    const { pathname } = useLocation();
+    useEffect(() => { lenis.scrollTo(0, { immediate: true }); }, [pathname]);
+    return null;
+};
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
@@ -142,6 +148,7 @@ const App = () => {
                     </filter>
                     <rect width="100%" height="100%" filter="url(#noiseFilter)" />
                 </svg>
+                <ScrollToTop />
                 <Routes>
                     <Route path="/" element={<LandingPage />} />
                     <Route path="/case-studies/:id" element={<CaseStudy />} />
