@@ -44,7 +44,7 @@ gsap.ticker.lagSmoothing(0);
 const Navbar = () => {
     const handleNavClick = (e, target) => {
         e.preventDefault();
-        lenis.scrollTo(target, { offset: -50 });
+        lenis.scrollTo(target, { offset: -50, immediate: true });
     };
 
     return (
